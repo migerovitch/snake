@@ -40,11 +40,6 @@ public class KeyInput extends Applet implements KeyListener
         drawString(g,newGame.toString(),100,300);
     }
     
-    public int getDir()
-    {
-        return direction;
-    }
-    
     public void keyPressed(KeyEvent e)
     {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT)

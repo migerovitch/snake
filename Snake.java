@@ -17,31 +17,28 @@
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 public class Snake
 {
     private int[][] arr;
-    private int x;
-    private int y;
     private int size;
     private int length;
-    
+    private int food_x;
+    private int food_y;
+    private ArrayList<int[]> moves;
     public Snake()
     {
         size = 10;
-        arr = new int[size][size];
+        moves = new ArrayList<int[]>();
         newLocation();
         createArr();
-        length = 1;
+        length = 3;
     }
     
-    public int getX()
+    public ArrayList<int[]> getMoves()
     {
-        return x;
-    }
-    
-    public int getY()
-    {
-        return y;
+        return moves;
     }
     
     public int getLength()
@@ -53,13 +50,28 @@ public class Snake
     {
         return size;
     }
+    
+    private boolean inMoves(int[] move)
+    {
+        for (int[] m:moves)
+        {
+            if (m[0] == move[0] && m[1] == move[1])
+                return true;
+        }
+        return false;
+    }
+    
     // Sets random location for snake.
     private void newLocation()
     {
         Random rand = new Random();
-        x = rand.nextInt(size - 2)+1;
-        y = rand.nextInt(size - 2)+1;
+        int x = rand.nextInt(size - 2)+1;
+        int y = rand.nextInt(size - 2)+1;
+        
+        moves.add(new int[] {x,y});
     }
+    
+    
     
     private void createArr()
     {
@@ -71,7 +83,7 @@ public class Snake
             {
                 if (i == 0 || i == size - 1 || j == 0 || j == size - 1)
                     arr[i][j] = 1;
-                else if (i == y && j == x)
+                else if (inMoves(new int[] {j,i}))
                     arr[i][j] = 8;
                 else
                     arr[i][j] = 0;
@@ -88,24 +100,34 @@ public class Snake
         return false;
     }
     
+    private void checkLength()
+    {
+        if (moves.size() > length)
+            moves.remove(0);
+    }
+    
     public void move(int dir)
     {
+        int x = moves.get(moves.size()-1)[0];
+        int y = moves.get(moves.size()-1)[1];
         if (dir == 0 && canMove(x+1,y)) // right
             x = x + 1;
         else if (dir == 1 && canMove(x-1,y)) // left
             x = x - 1;
-        else if (dir == 2 && canMove(x-1,y)) // up
+        else if (dir == 2 && canMove(x,y-1)) // up
             y = y - 1;
         else if (dir == 3 && canMove(x,y+1)) // down
             y = y + 1;
-            
+        
+        moves.add(new int[] {x,y});   
+        checkLength();    
         if (!canMove(x+1,y) || !canMove(x-1,y) || !canMove(x-1,y) || !canMove(x,y+1))
         {
             // ADD END GAME CONDITION.
         }
         createArr();
     }
-    
+
     public String toString()
     {
         String output = "";
