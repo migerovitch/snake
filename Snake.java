@@ -27,13 +27,30 @@ public class Snake
     private int food_x;
     private int food_y;
     private ArrayList<int[]> moves;
+    private Random rand;
+    
+    // Array variables
+    private int empty;
+    private int walls;
+    private int snake;
+    private int food;
+    
+    
     public Snake()
     {
-        size = 10;
+        rand = new Random();
+        size = 20;
         moves = new ArrayList<int[]>();
         newLocation();
         createArr();
-        length = 3;
+        newFoodLocation();
+        length = 1;
+        
+        // Arr variables
+        empty = 0;
+        walls = 1;
+        snake = 2;
+        food = 3;
     }
     
     public ArrayList<int[]> getMoves()
@@ -64,37 +81,49 @@ public class Snake
     // Sets random location for snake.
     private void newLocation()
     {
-        Random rand = new Random();
         int x = rand.nextInt(size - 2)+1;
         int y = rand.nextInt(size - 2)+1;
         
-        moves.add(new int[] {x,y});
+        moves.add(new int[] {y,x});
     }
     
-    
+    private void newFoodLocation()
+    {
+        food_x = rand.nextInt(size - 2)+1;
+        food_y = rand.nextInt(size - 2)+1;
+        
+        while (arr[food_y][food_x] != empty)
+        {
+            food_x = rand.nextInt(size - 2)+1;
+            food_y = rand.nextInt(size - 2)+1;
+            
+        }
+        createArr();
+    }
     
     private void createArr()
     {
-        arr = new int[size][size];
-        
+        arr = new int[size][size]; 
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
                 if (i == 0 || i == size - 1 || j == 0 || j == size - 1)
-                    arr[i][j] = 1;
-                else if (inMoves(new int[] {j,i}))
-                    arr[i][j] = 8;
+                    arr[i][j] = walls;
+                else if (inMoves(new int[] {i,j}))
+                    arr[i][j] = snake;
+                else if (i == food_y && j == food_x)
+                    arr[i][j] = food;
                 else
-                    arr[i][j] = 0;
+                    arr[i][j] = empty;
             }
         }
     }
     
     // Returns true if snake can move to location (x,y) - if location is 0.
-    private boolean canMove(int new_x, int new_y)
+    private boolean canMove(int new_y, int new_x)
     {
-        if (arr[new_x][new_y] == 0)
+        if (arr[new_y][new_x] == empty || arr[new_y][new_x] == food)
             return true;
         
         return false;
@@ -108,22 +137,28 @@ public class Snake
     
     public void move(int dir)
     {
-        int x = moves.get(moves.size()-1)[0];
-        int y = moves.get(moves.size()-1)[1];
-        if (dir == 0 && canMove(x+1,y)) // right
+        int x = moves.get(moves.size()-1)[1];
+        int y = moves.get(moves.size()-1)[0];
+        if (dir == 0 && canMove(y,x+1)) // right
             x = x + 1;
-        else if (dir == 1 && canMove(x-1,y)) // left
+        else if (dir == 1 && canMove(y,x-1)) // left
             x = x - 1;
-        else if (dir == 2 && canMove(x,y-1)) // up
+        else if (dir == 2 && canMove(y-1,x)) // up
             y = y - 1;
-        else if (dir == 3 && canMove(x,y+1)) // down
+        else if (dir == 3 && canMove(y+1,x)) // down
             y = y + 1;
         
-        moves.add(new int[] {x,y});   
-        checkLength();    
-        if (!canMove(x+1,y) || !canMove(x-1,y) || !canMove(x-1,y) || !canMove(x,y+1))
+        if (x == food_x && y == food_y)
         {
-            // ADD END GAME CONDITION.
+            length = length + 5;
+            newFoodLocation();
+        }
+        moves.add(new int[] {y,x});   
+        checkLength(); 
+        
+        if (arr[y][x] != snake & (!canMove(y,x+1) || !canMove(y,x-1) || !canMove(y-1,x) || !canMove(y+1,x)))
+        {
+            
         }
         createArr();
     }
