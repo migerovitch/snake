@@ -47,6 +47,8 @@ public class KeyInput extends Applet implements KeyListener
     
     public void keyPressed(KeyEvent e)
     {
+        Snake.gameEnd();
+        
         if (e.getKeyCode() == KeyEvent.VK_RIGHT)
         {
             direction = 0;

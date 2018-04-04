@@ -16,7 +16,6 @@
  */
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 public class Snake
@@ -28,7 +27,8 @@ public class Snake
     private int food_y;
     private ArrayList<int[]> moves;
     private Random rand;
-    
+    private static boolean gameEnd = false;
+    private int x,y,new_x,new_y;
     // Array variables
     private int empty;
     private int walls;
@@ -39,23 +39,35 @@ public class Snake
     public Snake()
     {
         rand = new Random();
-        size = 20;
+        
+        // Variables initation
         moves = new ArrayList<int[]>();
+        size = 20;
+        length = 1;
+        
+        // Game start
         newLocation();
         createArr();
         newFoodLocation();
-        length = 1;
         
-        // Arr variables
+        // Array symbols variables
         empty = 0;
         walls = 1;
         snake = 2;
         food = 3;
     }
     
+    /*
+     * Methods for returning variables stored in class. 
+     */
     public ArrayList<int[]> getMoves()
     {
         return moves;
+    }
+    
+    public static boolean gameEnd()
+    {
+        return gameEnd;
     }
     
     public int getLength()
@@ -68,14 +80,21 @@ public class Snake
         return size;
     }
     
+    // Checks if location is in the snake's location.
     private boolean inMoves(int[] move)
     {
         for (int[] m:moves)
         {
-            if (m[0] == move[0] && m[1] == move[1])
+            if (isSameMove(m,move))
                 return true;
         }
         return false;
+    }
+    
+    // Compares two moves
+    private boolean isSameMove(int[] m1, int[] m2)
+    {
+        return m1[0] == m2[0] && m1[1] == m2[1];
     }
     
     // Sets random location for snake.
@@ -87,6 +106,7 @@ public class Snake
         moves.add(new int[] {y,x});
     }
     
+    // Sets random location for food that is empty.
     private void newFoodLocation()
     {
         food_x = rand.nextInt(size - 2)+1;
@@ -101,6 +121,7 @@ public class Snake
         createArr();
     }
     
+    // Generates an array
     private void createArr()
     {
         arr = new int[size][size]; 
@@ -123,43 +144,93 @@ public class Snake
     // Returns true if snake can move to location (x,y) - if location is 0.
     private boolean canMove(int new_y, int new_x)
     {
-        if (arr[new_y][new_x] == empty || arr[new_y][new_x] == food)
-            return true;
-        
-        return false;
+        return (arr[new_y][new_x] == empty || arr[new_y][new_x] == food);
     }
     
+    // Makes sure that the snake makes only as many moves as it has to.
     private void checkLength()
     {
         if (moves.size() > length)
             moves.remove(0);
     }
     
+    private int[] getNextMove(int dir,int[] loc)
+    {      
+        x = loc[1];
+        y = loc[0];
+        new_x = x;
+        new_y = y;
+        if (dir == 0) // right
+            new_x = x + 1;
+        else if (dir == 1) // left
+            new_x = x - 1;
+        else if (dir == 2) // up
+            new_y = y - 1;
+        else if (dir == 3)// down
+            new_y = y + 1;
+        return new int[] {new_y,new_x};
+    }
+    
+    public int dirFlip(int dirn)
+    {
+        if (dirn == 0 || dirn == 2)
+            return dirn + 1;
+        else
+            return dirn - 1;
+    }
+    
     public void move(int dir)
     {
-        int x = moves.get(moves.size()-1)[1];
-        int y = moves.get(moves.size()-1)[0];
-        if (dir == 0 && canMove(y,x+1)) // right
-            x = x + 1;
-        else if (dir == 1 && canMove(y,x-1)) // left
-            x = x - 1;
-        else if (dir == 2 && canMove(y-1,x)) // up
-            y = y - 1;
-        else if (dir == 3 && canMove(y+1,x)) // down
-            y = y + 1;
+        gameEnd = false;
         
-        if (x == food_x && y == food_y)
+        // Obtains the snake's current location
+        x = moves.get(moves.size()-1)[1];
+        y = moves.get(moves.size()-1)[0];
+        
+        // Makes move
+        
+        int[] newMove = getNextMove(dir,new int[] {y,x});
+        
+        // 
+        if (arr[new_y][new_x] == walls)
         {
-            length = length + 5;
-            newFoodLocation();
+            gameEnd = true;
         }
-        moves.add(new int[] {y,x});   
+        
+        // 
+        else if (arr[new_y][new_x] == snake && !isSameMove(newMove,moves.get(moves.size()-1)))
+        {
+            gameEnd = true;
+            
+            if (length > 1)
+                {
+                    if (!isSameMove(newMove,moves.get(moves.size()-2))) gameEnd = true;
+                    
+                    else
+                    {
+                        gameEnd = false;
+                        dir = dirFlip(dir);
+                        newMove = getNextMove(dir,new int[] {y,x});
+                        moves.add(newMove);
+                    }
+                }
+        }
+        
+
+        else if (arr[new_y][new_x] == empty)
+        {
+            moves.add(newMove);  
+        }
+        
+        else if (arr[new_y][new_x] == food)
+        {
+            length = length + 1;
+            newFoodLocation();
+            moves.add(newMove);   
+        }
+        
         checkLength(); 
         
-        if (arr[y][x] != snake & (!canMove(y,x+1) || !canMove(y,x-1) || !canMove(y-1,x) || !canMove(y+1,x)))
-        {
-            
-        }
         createArr();
     }
 
