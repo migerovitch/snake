@@ -10,13 +10,15 @@ import javax.swing.JFrame;
 import java.util.concurrent.TimeUnit;
 public class main
 {
+    
+    
     public static void main(String[] args)
     {
-        //inputThread inputT = new inputThread();
         
+        // Variables
+        int speed = 150;
         
-        
-        //Thread input = new Thread(inputT);
+
         
         
         //System.out.println("Pregame: " + input.isAlive());
@@ -28,13 +30,13 @@ public class main
         {
             try 
             {
-                TimeUnit.MILLISECONDS.sleep(200);
+                TimeUnit.MILLISECONDS.sleep(speed);
                 app.repaint();
             } 
             catch(InterruptedException ex) {}
         }
         frame.setVisible(false);
-        //System.out.println("Postgame: ");
+        System.out.println("Score: " + Snake.getScore());
     }
 }
 

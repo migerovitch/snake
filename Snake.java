@@ -28,6 +28,8 @@ public class Snake
     private ArrayList<int[]> moves;
     private Random rand;
     private static boolean gameEnd = false;
+    private static int score = 0;
+    
     private int x,y,new_x,new_y;
     // Array variables
     private int empty;
@@ -68,6 +70,11 @@ public class Snake
     public static boolean gameEnd()
     {
         return gameEnd;
+    }
+    
+    public static int getScore()
+    {
+        return score;
     }
     
     public int getLength()
@@ -152,6 +159,7 @@ public class Snake
     {
         if (moves.size() > length)
             moves.remove(0);
+        score = length;
     }
     
     private int[] getNextMove(int dir,int[] loc)
@@ -230,7 +238,6 @@ public class Snake
         }
         
         checkLength(); 
-        
         createArr();
     }
 
