@@ -46,8 +46,8 @@ public class Snake
         
         // Variables initation
         moves = new ArrayList<int[]>();
-        size = 20;
-        length = 1;
+        size = 40;
+        length = 300;
         score = 0;
         // Game start
         newLocation();

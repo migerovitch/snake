@@ -8,6 +8,7 @@ package snake;
 
 import javax.swing.JFrame;
 import java.util.concurrent.TimeUnit;
+
 public class main
 {
     
@@ -16,7 +17,7 @@ public class main
     {
         
         // Variables
-        int speed = 100;
+        int speed = 25;
         
 
         
@@ -24,9 +25,10 @@ public class main
         //System.out.println("Pregame: " + input.isAlive());
         KeyInput app = new KeyInput();
         JFrame frame = new JFrame();
-        frame.setSize(800, 600);
+        frame.setSize(800, 820);
         frame.getContentPane().add(app);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         while (!Snake.gameEnd())
         {
             try 
@@ -36,7 +38,8 @@ public class main
             } 
             catch(InterruptedException ex) {}
         }
-        frame.setVisible(false);
+
+//        frame.setVisible(false);
     }
 }
 
