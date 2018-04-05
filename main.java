@@ -24,6 +24,7 @@ public class main
         //System.out.println("Pregame: " + input.isAlive());
         KeyInput app = new KeyInput();
         JFrame frame = new JFrame();
+        frame.setSize(800, 600);
         frame.getContentPane().add(app);
         frame.setVisible(true);
         while (!Snake.gameEnd())
