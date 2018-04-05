@@ -1,4 +1,5 @@
-package snake;
+package snake; 
+ 
 /**
  * Description: Snake game.
  * 
@@ -28,7 +29,7 @@ public class Snake
     private ArrayList<int[]> moves;
     private Random rand;
     private static boolean gameEnd = false;
-    private static int score = 0;
+    private int score;
     
     private int x,y,new_x,new_y;
     // Array variables
@@ -46,7 +47,7 @@ public class Snake
         moves = new ArrayList<int[]>();
         size = 20;
         length = 1;
-        
+        score = 0;
         // Game start
         newLocation();
         createArr();
@@ -72,7 +73,7 @@ public class Snake
         return gameEnd;
     }
     
-    public static int getScore()
+    public int getScore()
     {
         return score;
     }

@@ -1,4 +1,4 @@
-package snake;
+package snake; 
 /**
  * Write a description of class main here.
  * 
@@ -16,7 +16,7 @@ public class main
     {
         
         // Variables
-        int speed = 150;
+        int speed = 100;
         
 
         
@@ -37,7 +37,6 @@ public class main
             catch(InterruptedException ex) {}
         }
         frame.setVisible(false);
-        System.out.println("Score: " + Snake.getScore());
     }
 }
 
