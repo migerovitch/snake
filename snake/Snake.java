@@ -1,4 +1,5 @@
-package snake;
+package snake; 
+ 
 /**
  * Description: Snake game.
  * 
