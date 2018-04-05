@@ -17,7 +17,7 @@ public class main
     {
         
         // Variables
-        int speed = 25;
+        int speed = 100;
         
 
         
