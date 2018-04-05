@@ -38,6 +38,7 @@ public class KeyInput extends Applet implements KeyListener
         newGame.move(direction);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
         drawString(g,newGame.toString(),0,0);
+        g.drawString("Score: "+newGame.getScore(),500,50);
     }
     
     public int getDir()
