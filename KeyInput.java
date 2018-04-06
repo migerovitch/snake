@@ -1,4 +1,4 @@
-package snake;
+ 
  
 /**
  * Collects user input.
