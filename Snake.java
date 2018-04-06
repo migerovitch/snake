@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class Snake
 {
+
     private int[][] board;
     private int size;
     private int length;
@@ -45,8 +46,8 @@ public class Snake
         
         // Variables initation
         moves = new ArrayList<int[]>();
-        size = 20;
-        length = 1;
+        size = 40;
+        length = 300;
         score = 0;
         // Game start
         newLocation();
@@ -67,7 +68,11 @@ public class Snake
     {
         return moves;
     }
-    
+
+    public int[][] getBoard() {
+        return board;
+    }
+
     public static boolean gameEnd()
     {
         return gameEnd;
@@ -180,12 +185,12 @@ public class Snake
         return new int[] {new_y,new_x};
     }
     
-    public int dirFlip(int dirn)
+    public int dirFlip(int dir)
     {
-        if (dirn == 0 || dirn == 2)
-            return dirn + 1;
+        if (dir == 0 || dir == 2)
+            return dir + 1;
         else
-            return dirn - 1;
+            return dir - 1;
     }
     
     public void move(int dir)
