@@ -1,9 +1,11 @@
+package snake;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /*
-** Name : Network
+** Name : snake.Network
 ** Author : Kyle
 ** Date : 4/15/18
 ** Description : A simple SGD-less network used for a genetic algorithim.  Can mutate and crossover with other networks.

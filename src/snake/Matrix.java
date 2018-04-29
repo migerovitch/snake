@@ -1,7 +1,9 @@
+package snake;
+
 import java.util.Random;
 
 /*
-** Name : Matrix
+** Name : snake.Matrix
 ** Author : Kyle
 ** Date : 4/15/18
 ** Description : A matrix made of doubles with static add, subtract, multiply and divide methods
@@ -10,7 +12,7 @@ public class Matrix {
     private Random random;
     private int cols; //number of columns
     private int rows; //number of rows
-    private double[][] data; //actual Matrix
+    private double[][] data; //actual snake.Matrix
     public int getRows() {
         return rows;
     }

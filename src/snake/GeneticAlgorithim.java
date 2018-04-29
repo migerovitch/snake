@@ -1,8 +1,10 @@
+package snake;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /*
-** Name : GeneticAlgorithim
+** Name : snake.GeneticAlgorithim
 ** Author : Kyle
 ** Date : 4/27/18
 ** Description : 
